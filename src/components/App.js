@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import Button from './Button';
+import DrawerForm from './DrawerForm';
 import { useStateValue } from '../store';
 
 const App = () => {
@@ -8,9 +8,8 @@ const App = () => {
     console.log('rerender');
   });
   return (
-    <div className="App" style={{ backgroundColor: state.theme.primary }}>
-      {console.log(state)}
-      <Button />
+    <div className="App">
+      <DrawerForm />
     </div>
   );
 };
