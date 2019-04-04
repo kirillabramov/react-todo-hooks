@@ -27,13 +27,7 @@ const StateProvider = ({ children }) => (
 const useStateValue = () => useContext(StateContext);
 
 StateProvider.propTypes = {
-  // reducer: PropTypes.instanceOf(Object),
-  // initialState: PropTypes.instanceOf(Object),
   children: PropTypes.instanceOf(Object).isRequired
 };
 
-// StateProvider.defaultProps = {
-//   reducer: {},
-//   initialState: []
-// };
 export { useStateValue, StateContext, StateProvider };
