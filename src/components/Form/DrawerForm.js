@@ -52,6 +52,7 @@ const styles = {
 
 const DrawerForm = ({ classes, setIsDrawerOpen, isDrawerOpen }) => {
   const [showSnackbar, setShowSnackbar] = useState(false);
+  const [hiddenFields, setHiddenFields] = useState(true);
   const [selectedDate, handleDateChange] = useState(new Date());
 
   const handleSnackbarBack = _ => {
@@ -87,6 +88,10 @@ const DrawerForm = ({ classes, setIsDrawerOpen, isDrawerOpen }) => {
   const handleDrawer = _ => {
     setShowSnackbar(true);
   };
+  const handleDate = date => {
+    handleDateChange(date);
+    setHiddenFields(false);
+  };
   return (
     <div className="div">
       <Drawer open={isDrawerOpen} onClose={_ => handleDrawer()} anchor="right">
@@ -106,11 +111,16 @@ const DrawerForm = ({ classes, setIsDrawerOpen, isDrawerOpen }) => {
               <Input />
             </TextField>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <DatePicker value={selectedDate} onChange={handleDateChange} margin="normal" />
+              <DatePicker value={selectedDate} onChange={handleDate} margin="normal" />
             </MuiPickersUtilsProvider>
-            <RadioButtons />
-            <FormSelect />
-            <Autosuggestion />
+            <div
+              className="hidden-fields"
+              style={{ display: hiddenFields ? 'none' : 'flex', flexDirection: 'column' }}
+            >
+              <RadioButtons />
+              <FormSelect />
+              <Autosuggestion />
+            </div>
           </div>
           <div className={classes.buttonWrapper}>
             <Button
