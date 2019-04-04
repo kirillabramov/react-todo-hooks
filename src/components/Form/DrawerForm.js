@@ -59,6 +59,7 @@ const DrawerForm = ({ classes, setIsDrawerOpen, isDrawerOpen }) => {
   };
   const handleSnackContinue = _ => {
     setIsDrawerOpen(false);
+    setShowSnackbar(false);
   };
 
   const snackBarAction = (
