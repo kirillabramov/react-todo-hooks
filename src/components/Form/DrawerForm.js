@@ -50,22 +50,45 @@ const styles = {
   }
 };
 
-const DrawerForm = ({ classes }) => {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+const DrawerForm = ({ classes, setIsDrawerOpen, isDrawerOpen }) => {
+  const [showSnackbar, setShowSnackbar] = useState(false);
   const [selectedDate, handleDateChange] = useState(new Date());
+
+  const handleSnackbarBack = _ => {
+    setShowSnackbar(false);
+  };
+  const handleSnackContinue = _ => {
+    setIsDrawerOpen(false);
+  };
+
   const snackBarAction = (
     <div>
-      <Button className={classes.buttons} variant="outlined" color="secondary" size="small">
+      <Button
+        onClick={_ => handleSnackContinue()}
+        className={classes.buttons}
+        variant="text"
+        color="secondary"
+        size="small"
+      >
         Продолжить
       </Button>
-      <Button className={classes.buttons} variant="outlined" color="primary" size="small">
+      <Button
+        onClick={_ => handleSnackbarBack()}
+        className={classes.buttons}
+        variant="text"
+        style={{ color: '#fff' }}
+        size="small"
+      >
         Назад
       </Button>
     </div>
   );
+  const handleDrawer = _ => {
+    setShowSnackbar(true);
+  };
   return (
     <div className="div">
-      <Drawer open={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} anchor="right">
+      <Drawer open={isDrawerOpen} onClose={_ => handleDrawer()} anchor="right">
         <div className={classes.wrapper}>
           <h1 className={classes.titleMargin}>Новая задача</h1>
           <div className={classes.drawerContent}>
@@ -109,28 +132,19 @@ const DrawerForm = ({ classes }) => {
         </div>
         <SnackBar
           variant="warning"
-          open={true}
+          open={showSnackbar}
           anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-          autoHideDuration={1000}
+          onClose={() => {
+            setShowSnackbar(false);
+          }}
         >
           <SnackbarContent
-            message="This is a warning message!"
-            open={true}
+            message="Кажется вы забыли сохранить задачу..."
             action={snackBarAction}
+            style={{ backgroundColor: '#ffa000' }}
           />
         </SnackBar>
       </Drawer>
-
-      <Button
-        color="default"
-        variant="outlined"
-        className={classes.buttons}
-        onClick={() => {
-          setIsDrawerOpen(!isDrawerOpen);
-        }}
-      >
-        Добавить задачу
-      </Button>
     </div>
   );
 };
@@ -138,5 +152,11 @@ const DrawerForm = ({ classes }) => {
 export default withStyles(styles)(DrawerForm);
 
 DrawerForm.propTypes = {
-  classes: PropTypes.instanceOf(Object).isRequired
+  classes: PropTypes.instanceOf(Object).isRequired,
+  setIsDrawerOpen: PropTypes.func,
+  isDrawerOpen: PropTypes.bool
+};
+DrawerForm.defaultProps = {
+  setIsDrawerOpen: () => {},
+  isDrawerOpen: false
 };

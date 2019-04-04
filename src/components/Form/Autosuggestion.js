@@ -99,7 +99,8 @@ const Autosuggestion = _ => {
         inputProps={{
           placeholder: 'Укажите тег (доступны теги, которые начинаются на т)',
           value: single,
-          onChange: handleSelect()
+          onChange: handleSelect(),
+          margin: 'normal'
         }}
         renderSuggestionsContainer={options => (
           <Paper {...options.containerProps} square>
