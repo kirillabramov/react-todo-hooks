@@ -51,14 +51,14 @@ const styles = {
 };
 
 const DrawerForm = ({ classes, setIsDrawerOpen, isDrawerOpen }) => {
-  const [showSnackbar, setShowSnackbar] = useState(false);
+  const [isSnackbarVisible, setShowSnackbar] = useState(false);
   const [hiddenFields, setHiddenFields] = useState(true);
   const [selectedDate, handleDateChange] = useState(new Date());
 
   const handleSnackbarBack = _ => {
     setShowSnackbar(false);
   };
-  const handleSnackContinue = _ => {
+  const handleExitModal = _ => {
     setIsDrawerOpen(false);
     setShowSnackbar(false);
   };
@@ -66,7 +66,7 @@ const DrawerForm = ({ classes, setIsDrawerOpen, isDrawerOpen }) => {
   const snackBarAction = (
     <div>
       <Button
-        onClick={_ => handleSnackContinue()}
+        onClick={_ => handleExitModal()}
         className={classes.buttons}
         variant="text"
         color="secondary"
@@ -85,16 +85,16 @@ const DrawerForm = ({ classes, setIsDrawerOpen, isDrawerOpen }) => {
       </Button>
     </div>
   );
-  const handleDrawer = _ => {
+  const showSnackbar = _ => {
     setShowSnackbar(true);
   };
   const handleDate = date => {
     handleDateChange(date);
-    setHiddenFields(false);
+    if (hiddenFields) setHiddenFields(false);
   };
   return (
     <div className="div">
-      <Drawer open={isDrawerOpen} onClose={_ => handleDrawer()} anchor="right">
+      <Drawer open={isDrawerOpen} onClose={_ => showSnackbar()} anchor="right">
         <div className={classes.wrapper}>
           <h1 className={classes.titleMargin}>Новая задача</h1>
           <div className={classes.drawerContent}>
@@ -135,7 +135,7 @@ const DrawerForm = ({ classes, setIsDrawerOpen, isDrawerOpen }) => {
               color="secondary"
               variant="contained"
               className={classes.buttons}
-              onClick={() => {}}
+              onClick={() => showSnackbar()}
             >
               Отмена
             </Button>
@@ -143,7 +143,7 @@ const DrawerForm = ({ classes, setIsDrawerOpen, isDrawerOpen }) => {
         </div>
         <SnackBar
           variant="warning"
-          open={showSnackbar}
+          open={isSnackbarVisible}
           anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
           onClose={() => {
             setShowSnackbar(false);
