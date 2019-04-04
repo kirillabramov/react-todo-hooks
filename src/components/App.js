@@ -5,6 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import AddIcon from '@material-ui/icons/Add';
 import DrawerForm from './Form/DrawerForm';
+import TaskTable from './TaskTable';
 
 const App = _ => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -29,6 +30,7 @@ const App = _ => {
         </Toolbar>
       </AppBar>
       <DrawerForm isDrawerOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen} />
+      <TaskTable />
     </>
   );
 };
