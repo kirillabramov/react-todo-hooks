@@ -1,0 +1,3 @@
+const CHANGE_COLOR = 'CHANGE_COLOR';
+
+export { CHANGE_COLOR };
