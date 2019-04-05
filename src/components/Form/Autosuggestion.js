@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
@@ -7,14 +7,7 @@ import match from 'autosuggest-highlight/match';
 import parse from 'autosuggest-highlight/parse';
 import deburr from 'lodash/deburr';
 
-const Autosuggestion = _ => {
-  const [suggestions, setSuggestion] = useState([
-    { label: 'тег0' },
-    { label: 'тег1' },
-    { label: 'тег2' },
-    { label: 'тег3' }
-  ]);
-  const [single, setSingle] = useState('');
+const Autosuggestion = ({ suggestions, setSuggestion, single, setSingle }) => {
   const renderInputComponent = inputProps => {
     const { classes, inputRef = () => {}, ref, ...other } = inputProps;
 

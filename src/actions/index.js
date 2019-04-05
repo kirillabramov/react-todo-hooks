@@ -1,10 +1,17 @@
-import { CHANGE_COLOR } from './types';
+import { ADD_TASK, EDIT_STATUS } from './types';
 
-const changeColor = dispatch => {
+const addTask = (dispatch, task) => {
   dispatch({
-    type: CHANGE_COLOR,
-    payload: { primary: 'blue' }
+    type: ADD_TASK,
+    payload: task
   });
 };
 
-export { changeColor };
+const editStatus = (dispatch, payload) => {
+  dispatch({
+    type: EDIT_STATUS,
+    payload
+  });
+};
+
+export { addTask, editStatus };

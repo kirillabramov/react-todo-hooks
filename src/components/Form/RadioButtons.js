@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import PropTypes from 'prop-types';
 
-const RadioButtons = _ => {
-  const [task, setTasks] = useState('Срочная важная');
+const RadioButtons = ({ task, setTasks }) => {
   return (
     <RadioGroup
       aria-label="position"
@@ -45,3 +45,8 @@ const RadioButtons = _ => {
 };
 
 export default RadioButtons;
+
+RadioButtons.propTypes = {
+  task: PropTypes.string.isRequired,
+  setTasks: PropTypes.func.isRequired
+};

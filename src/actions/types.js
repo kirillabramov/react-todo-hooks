@@ -1,3 +1,4 @@
-const CHANGE_COLOR = 'CHANGE_COLOR';
+const ADD_TASK = 'ADD_TASK';
+const EDIT_STATUS = 'EDIT_STATUS';
 
-export { CHANGE_COLOR };
+export { ADD_TASK, EDIT_STATUS };

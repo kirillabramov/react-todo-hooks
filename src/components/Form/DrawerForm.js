@@ -12,6 +12,8 @@ import DateFnsUtils from '@date-io/date-fns';
 import RadioButtons from './RadioButtons';
 import FormSelect from './FormSelect';
 import Autosuggestion from './Autosuggestion';
+import { useStateValue } from '../../store';
+import { addTask } from '../../actions';
 
 const styles = {
   buttons: {
@@ -49,12 +51,25 @@ const styles = {
     left: '-50px'
   }
 };
+let id = 3;
 
 const DrawerForm = ({ classes, setIsDrawerOpen, isDrawerOpen }) => {
+  const [state, dispatch] = useStateValue();
   const [isSnackbarVisible, setShowSnackbar] = useState(false);
+  const [isErrorSnackbarVisible, setErrorShowSnackbar] = useState(false);
   const [hiddenFields, setHiddenFields] = useState(true);
   const [selectedDate, handleDateChange] = useState(new Date());
-
+  const [status, setStatus] = useState();
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState();
+  const [suggestions, setSuggestion] = useState([
+    { label: 'тег0' },
+    { label: 'тег1' },
+    { label: 'тег2' },
+    { label: 'тег3' }
+  ]);
+  const [single, setSingle] = useState('');
+  const [taskTime, setTasksTime] = useState('');
   const handleSnackbarBack = _ => {
     setShowSnackbar(false);
   };
@@ -92,13 +107,36 @@ const DrawerForm = ({ classes, setIsDrawerOpen, isDrawerOpen }) => {
     handleDateChange(date);
     if (hiddenFields) setHiddenFields(false);
   };
+  const handleSaveTask = _ => {
+    if (name.length === 0) {
+      setErrorShowSnackbar(true);
+      return;
+    }
+    id += 1;
+    const dateFormat = new Date(selectedDate).toGMTString().split(' ');
+    const task = {
+      id,
+      name,
+      description,
+      date: `${dateFormat[2]}-${dateFormat[1]}-${dateFormat[3]}`,
+      status,
+      important: taskTime,
+      tag: single
+    };
+    addTask(dispatch, task);
+  };
   return (
     <div className="div">
       <Drawer open={isDrawerOpen} onClose={_ => showSnackbar()} anchor="right">
         <div className={classes.wrapper}>
           <h1 className={classes.titleMargin}>Новая задача</h1>
           <div className={classes.drawerContent}>
-            <TextField size="small" variant="outlined" label="Название задачи">
+            <TextField
+              size="small"
+              variant="outlined"
+              label="Название задачи"
+              onChange={e => setName(e.target.value)}
+            >
               <Input />
             </TextField>
             <TextField
@@ -107,6 +145,7 @@ const DrawerForm = ({ classes, setIsDrawerOpen, isDrawerOpen }) => {
               margin="normal"
               multiline={true}
               label="Описание задачи"
+              onChange={e => setDescription(e.target.value)}
             >
               <Input />
             </TextField>
@@ -117,9 +156,14 @@ const DrawerForm = ({ classes, setIsDrawerOpen, isDrawerOpen }) => {
               className="hidden-fields"
               style={{ display: hiddenFields ? 'none' : 'flex', flexDirection: 'column' }}
             >
-              <RadioButtons />
-              <FormSelect />
-              <Autosuggestion />
+              <RadioButtons task={taskTime} setTasks={setTasksTime} />
+              <FormSelect status={status} setStatus={setStatus} />
+              <Autosuggestion
+                suggestions={suggestions}
+                setSuggestion={setSuggestion}
+                single={single}
+                setSingle={setSingle}
+              />
             </div>
           </div>
           <div className={classes.buttonWrapper}>
@@ -127,7 +171,7 @@ const DrawerForm = ({ classes, setIsDrawerOpen, isDrawerOpen }) => {
               color="primary"
               variant="contained"
               className={classes.buttons}
-              onClick={() => {}}
+              onClick={handleSaveTask}
             >
               Сохранить
             </Button>
@@ -135,7 +179,7 @@ const DrawerForm = ({ classes, setIsDrawerOpen, isDrawerOpen }) => {
               color="secondary"
               variant="contained"
               className={classes.buttons}
-              onClick={() => showSnackbar()}
+              onClick={() => setIsDrawerOpen(false)}
             >
               Отмена
             </Button>
@@ -153,6 +197,21 @@ const DrawerForm = ({ classes, setIsDrawerOpen, isDrawerOpen }) => {
             message="Кажется вы забыли сохранить задачу..."
             action={snackBarAction}
             style={{ backgroundColor: '#ffa000' }}
+          />
+        </SnackBar>
+
+        <SnackBar
+          variant="error"
+          open={isErrorSnackbarVisible}
+          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+          autoHideDuration={3000}
+          onClose={() => {
+            setErrorShowSnackbar(false);
+          }}
+        >
+          <SnackbarContent
+            message="Заполните название задачи"
+            style={{ backgroundColor: '#d32f2f' }}
           />
         </SnackBar>
       </Drawer>
