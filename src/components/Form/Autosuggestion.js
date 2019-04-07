@@ -1,13 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Autosuggest from 'react-autosuggest';
 import match from 'autosuggest-highlight/match';
+import Icon from '@material-ui/core/Icon';
 import parse from 'autosuggest-highlight/parse';
 import deburr from 'lodash/deburr';
+import { useStateValue } from '../../store';
+import { handleFormFields } from '../../actions';
+import '../../main.scss';
 
-const Autosuggestion = ({ suggestions, setSuggestion, single, setSingle }) => {
+const Autosuggestion = () => {
+  const [state, dispatch] = useStateValue();
+  const [suggestion, setSuggestion] = useState();
+  const suggestions = [{ label: 'тег0' }, { label: 'тег1' }, { label: 'тег2' }, { label: 'тег3' }];
   const renderInputComponent = inputProps => {
     const { classes, inputRef = () => {}, ref, ...other } = inputProps;
 
@@ -74,7 +81,7 @@ const Autosuggestion = ({ suggestions, setSuggestion, single, setSingle }) => {
   };
 
   const handleSelect = _ => (event, { newValue }) => {
-    setSingle(newValue);
+    handleFormFields(dispatch, { field: 'tag', value: newValue });
   };
 
   const autosuggestProps = {
@@ -86,22 +93,25 @@ const Autosuggestion = ({ suggestions, setSuggestion, single, setSingle }) => {
     renderSuggestion
   };
   return (
-    <div>
-      <Autosuggest
-        {...autosuggestProps}
-        inputProps={{
-          placeholder: 'Укажите тег (доступны теги, которые начинаются на т)',
-          value: single,
-          onChange: handleSelect(),
-          margin: 'normal'
-        }}
-        renderSuggestionsContainer={options => (
-          <Paper {...options.containerProps} square>
-            {options.children}
-          </Paper>
-        )}
-      />
-    </div>
+    <>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Autosuggest
+          {...autosuggestProps}
+          inputProps={{
+            placeholder: 'Укажите тег (доступны теги, которые начинаются на т)',
+            value: state.formFields.tag,
+            onChange: handleSelect(),
+            margin: 'normal'
+          }}
+          renderSuggestionsContainer={options => (
+            <Paper {...options.containerProps} square>
+              {options.children}
+            </Paper>
+          )}
+        />
+        <Icon style={{ order: '-1', color: '#303f9f' }}>room</Icon>
+      </div>
+    </>
   );
 };
 

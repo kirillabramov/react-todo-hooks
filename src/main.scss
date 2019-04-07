@@ -1,0 +1,20 @@
+.table-row {
+  &:hover {
+    .table-row--hidden {
+      visibility: visible;
+      opacity: 1;
+      transition: 0.25s;
+    }
+  }
+  &--hidden {
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.25s;
+  }
+}
+.MuiInputLabel-shrink-157 {
+  top: 0 !important;
+}
+.react-autosuggest__container {
+  width: 93%;
+}

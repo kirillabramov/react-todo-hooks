@@ -2,16 +2,20 @@ import React from 'react';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import PropTypes from 'prop-types';
+import { useStateValue } from '../../store';
+import { handleFormFields } from '../../actions';
 
-const RadioButtons = ({ task, setTasks }) => {
+const RadioButtons = () => {
+  const [state, dispatch] = useStateValue();
+
   return (
     <RadioGroup
       aria-label="position"
       name="position"
-      value={task}
+      value={state.formFields.important}
+      defaultValue={state.formFields.important}
       onChange={e => {
-        setTasks(e.target.value);
+        handleFormFields(dispatch, { field: 'important', value: e.target.value });
       }}
       row
       margin="normal"
@@ -45,8 +49,3 @@ const RadioButtons = ({ task, setTasks }) => {
 };
 
 export default RadioButtons;
-
-RadioButtons.propTypes = {
-  task: PropTypes.string.isRequired,
-  setTasks: PropTypes.func.isRequired
-};

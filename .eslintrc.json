@@ -8,6 +8,11 @@
     "no-shadow": "off",
     "import/no-extraneous-dependencies": "off",
     "import/prefer-default-export": "off",
-    "react/jsx-boolean-value": "off"
+    "react/jsx-boolean-value": "off",
+    "guard-for-in": "off",
+    "no-else-return": "off",
+    "no-plusplus": "off",
+    "no-param-reassign": "off",
+    "consistent-return": "off"
   }
 }

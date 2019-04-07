@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -6,10 +6,11 @@ import Typography from '@material-ui/core/Typography';
 import AddIcon from '@material-ui/icons/Add';
 import DrawerForm from './Form/DrawerForm';
 import TaskTable from './TaskTable';
+import { useStateValue } from '../store';
+import { openDrawer, handleFormEdit, hideFields } from '../actions';
 
 const App = _ => {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
+  const [, dispatch] = useStateValue();
   return (
     <>
       <AppBar position="static">
@@ -19,7 +20,9 @@ const App = _ => {
             aria-label="Open drawer"
             style={{ marginRight: '10px', outline: 0 }}
             onClick={() => {
-              setIsDrawerOpen(!isDrawerOpen);
+              handleFormEdit(dispatch, false);
+              openDrawer(dispatch, true);
+              hideFields(dispatch, true);
             }}
           >
             <AddIcon />
@@ -29,7 +32,7 @@ const App = _ => {
           </Typography>
         </Toolbar>
       </AppBar>
-      <DrawerForm isDrawerOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen} />
+      <DrawerForm />
       <TaskTable />
     </>
   );
